@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 80%; text-align: center;">
+    
+    <!-- Icono de Check en verde -->
+    <div style="font-size: 80px; color: #28a745; margin-bottom: 20px;">
+        &#10004; <!-- Símbolo de check HTML -->
+    </div>
+
+    <h1 style="color: #003478; font-size: 36px; margin-bottom: 10px;">¡Gracias por tu compra!</h1>
+    
+    <!-- Mensaje Requerido -->
+    <h2 style="color: #555; font-weight: normal; margin-bottom: 30px;">
+        👉 Su compra fue exitosa
+    </h2>
+
+    <p style="color: #777; margin-bottom: 40px; max-width: 500px;">
+        Hemos registrado tu pedido correctamente. En breve nos pondremos en contacto contigo para coordinar la entrega de tu vehículo Ford.
+    </p>
+
+    <!-- Botón para volver al inicio -->
+<a href="{% url 'inicio' %}" class="btn-custom btn-blue btn-lg">
+    Volver al Inicio
+</a>
+</div>
+{% endblock %}

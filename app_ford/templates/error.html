@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 80%; text-align: center;">
+
+    <!-- Icono de Alerta en rojo -->
+    <div style="font-size: 80px; color: #dc3545; margin-bottom: 20px;">
+        &#9888; <!-- Símbolo de alerta HTML -->
+    </div>
+
+    <h1 style="color: #dc3545; font-size: 36px; margin-bottom: 10px;">¡Lo sentimos!</h1>
+    
+    <!-- Aquí se inyecta el mensaje de error que enviamos desde views.py -->
+    <h3 style="color: #333; margin-bottom: 30px;">
+        {{ mensaje }}
+    </h3>
+
+    <p style="color: #777; margin-bottom: 40px;">
+        Por favor revisa tu carrito de compras o intenta con otro vehículo.
+    </p>
+
+<div style="display: flex; gap: 20px; justify-content: center;">
+    <a href="{% url 'ver_carrito' %}" class="btn-custom btn-gray">
+        Ver Carrito
+    </a>
+    <a href="{% url 'inicio' %}" class="btn-custom btn-blue">
+        Volver al Catálogo
+    </a>
+</div>
+
+</div>
+{% endblock %}

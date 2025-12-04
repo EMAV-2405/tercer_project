@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="display: flex; padding: 40px; align-items: center; gap: 40px;">
+    {% for item in items %}
+    <div style="flex: 1;">
+        <img src="{{ item.imagen_url }}" style="width: 100%; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+    </div>
+    <div style="flex: 1; color: #333;">
+        <h2 style="color: #003478;">Mustang Edición Centenario</h2>
+        <p>Celebrando un siglo de historia en México, presentamos el Mustang Edición Centenario. Una pieza de colección.</p>
+        
+        <h3 style="color: #003478;">Ficha Técnica</h3>
+        <ul>
+            <li><strong>Motor:</strong> {{ item.motor }}</li>
+            <li><strong>Color:</strong> {{ item.color }}</li>
+            <li><strong>Rines:</strong> {{ item.rines }}</li>
+            <li><strong>Interior:</strong> {{ item.interior }}</li>
+        </ul>
+        <h2 style="color: #003478;">${{ item.precio }}</h2>
+
+        {% if user.is_authenticated %}
+            {% if item.disponible %}
+                <a href="{% url 'agregar_carrito' '100anios' item.id %}" class="btn-action" style="display: inline-block; padding: 15px 40px;">Apartar Ahora</a>
+            {% else %}
+                <button disabled style="background: grey; color: white; border: none; padding: 15px;">Agotado</button>
+            {% endif %}
+        {% else %}
+            <a href="{% url 'login' %}" class="btn-login">Inicia sesión para apartar</a>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,284 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    /* --- FONDO Y CONTENEDOR --- */
+    body {
+        background-color: #f4f6f9;
+    }
+    
+    .catalog-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
+
+    /* --- HEADER DE LA SECCIÓN --- */
+    .section-header {
+        margin-bottom: 50px;
+        position: relative;
+        padding-bottom: 15px;
+    }
+    
+    .section-header h2 {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 800;
+        font-size: 2.5rem;
+        color: #003478; /* Ford Blue */
+        text-transform: uppercase;
+        letter-spacing: -1px;
+        margin: 0;
+    }
+    
+    .section-header::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 80px;
+        height: 4px;
+        background: #2d96cd; /* Cyan Accent */
+    }
+
+    /* --- TARJETA DE VEHÍCULO (ESTILO HORIZONTAL PREMIUM) --- */
+    .vehicle-card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.04);
+        margin-bottom: 30px;
+        display: flex; /* Flexbox para diseño horizontal */
+        flex-wrap: wrap; /* Para que se adapte a movil */
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .vehicle-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0, 52, 120, 0.12);
+        border-color: rgba(45, 150, 205, 0.3);
+    }
+
+    /* --- IMAGEN DEL AUTO --- */
+    .vehicle-image-box {
+        flex: 1 1 400px; /* Ocupa espacio proporcional, mínimo 400px */
+        position: relative;
+        overflow: hidden;
+        min-height: 280px;
+        background: #eceff1;
+    }
+
+    .vehicle-image-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Asegura que la foto cubra todo el espacio */
+        transition: transform 0.5s ease;
+    }
+
+    .vehicle-card:hover .vehicle-image-box img {
+        transform: scale(1.05);
+    }
+
+    /* Etiqueta de Año Flotante */
+    .year-badge {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background: rgba(0, 52, 120, 0.9);
+        color: white;
+        padding: 5px 15px;
+        font-weight: bold;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        backdrop-filter: blur(4px);
+    }
+
+    /* --- INFORMACIÓN DEL AUTO --- */
+    .vehicle-info {
+        flex: 1 1 350px; /* El texto ocupa el resto */
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .vehicle-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #222;
+        margin-bottom: 10px;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    /* Grid de especificaciones (Motor, Color) */
+    .specs-grid {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 25px;
+        flex-wrap: wrap;
+    }
+
+    .spec-pill {
+        background: #f8f9fa;
+        color: #555;
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        border: 1px solid #e9ecef;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .spec-pill i {
+        color: #2d96cd;
+    }
+
+    /* --- PRECIO Y BOTONES --- */
+    .price-tag {
+        font-size: 2rem;
+        color: #003478;
+        font-weight: 800;
+        margin-bottom: 20px;
+        display: block;
+    }
+    
+    .price-tag span {
+        font-size: 1rem;
+        color: #777;
+        font-weight: 400;
+    }
+
+    .action-row {
+        display: flex;
+        gap: 15px;
+        margin-top: auto;
+    }
+
+    /* Botones redefinidos para esta sección */
+    .btn-showroom {
+        padding: 12px 25px;
+        border-radius: 6px; /* Bordes menos redondos, más técnicos */
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+        text-decoration: none;
+        text-align: center;
+        transition: all 0.2s;
+        flex: 1;
+    }
+
+    .btn-buy {
+        background-color: #003478;
+        color: white;
+        border: none;
+    }
+    .btn-buy:hover {
+        background-color: #002250;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .btn-cart {
+        background-color: transparent;
+        color: #003478;
+        border: 2px solid #003478;
+    }
+    .btn-cart:hover {
+        background-color: #003478;
+        color: white;
+    }
+
+    /* Estado vacío */
+    .no-results {
+        text-align: center;
+        padding: 80px;
+        background: white;
+        border-radius: 12px;
+        color: #999;
+    }
+</style>
+
+<div class="catalog-container">
+
+    <!-- HEADER -->
+    <div class="section-header">
+        <h2>{{ titulo }}</h2>
+        <p style="color: #666; margin-top: 10px;">Explora nuestra selección exclusiva de modelos disponibles.</p>
+    </div>
+
+    <!-- LISTADO DE VEHÍCULOS -->
+    {% for item in items %}
+    <div class="vehicle-card">
+        
+        <!-- COLUMNA IZQUIERDA: FOTO -->
+        <div class="vehicle-image-box">
+            <span class="year-badge">{{ item.anio }}</span>
+            <img src="{{ item.imagen_url }}" alt="{{ item.nombre }}">
+        </div>
+
+        <!-- COLUMNA DERECHA: INFO -->
+        <div class="vehicle-info">
+            
+            <h3 class="vehicle-title">{{ item.nombre }}</h3>
+            
+            <div class="specs-grid">
+                <!-- Color -->
+                <div class="spec-pill">
+                    <i class="bi bi-palette"></i> {{ item.color }}
+                </div>
+                <!-- Motor -->
+                <div class="spec-pill">
+                    <i class="bi bi-lightning-charge"></i> {{ item.motor }}
+                </div>
+                <!-- Categoría (Usamos la variable de la URL si quieres, o un texto fijo) -->
+                <div class="spec-pill">
+                    <i class="bi bi-car-front"></i> Ford Certified
+                </div>
+            </div>
+
+            <div class="price-tag">
+                <span>MXN</span> ${{ item.precio }}
+            </div>
+
+            <div class="action-row">
+                {% if user.is_authenticated %}
+                    
+                    <!-- Agregar al Carrito -->
+                    <a href="{% url 'agregar_carrito' categoria item.id %}?accion=agregar" 
+                       class="btn-showroom btn-cart">
+                       <i class="bi bi-cart3"></i> Carrito
+                    </a>
+
+                    <!-- Comprar Ahora -->
+                    <a href="{% url 'agregar_carrito' categoria item.id %}?accion=comprar" 
+                       class="btn-showroom btn-buy">
+                       Comprar Ahora
+                    </a>
+
+                {% else %}
+                    
+                    <a href="{% url 'login' %}" class="btn-showroom btn-buy" style="background: #444;">
+                        <i class="bi bi-lock-fill"></i> Iniciar Sesión
+                    </a>
+
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+    {% empty %}
+        <div class="no-results">
+            <i class="bi bi-search" style="font-size: 3rem; margin-bottom: 20px; display:block;"></i>
+            <h3>No encontramos vehículos en esta categoría.</h3>
+            <p>Por favor intenta con otra sección del menú.</p>
+        </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

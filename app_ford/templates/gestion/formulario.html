@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="display: flex; justify-content: center; padding: 40px;">
+    <div style="background: white; width: 500px; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        <h2 style="color: #003478; margin-bottom: 20px;">{{ accion }} {{ categoria|upper }}</h2>
+        
+        <form method="post">
+            {% csrf_token %}
+            <!-- Loop para renderizar campos bonitos -->
+            {% for field in form %}
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; color: #555; margin-bottom: 5px; font-weight: bold;">
+                    {{ field.label }}
+                </label>
+                <!-- Aplicamos estilo inline simple a los inputs -->
+                {{ field }}
+            </div>
+            {% endfor %}
+
+            <div style="margin-top: 30px; display: flex; gap: 10px;">
+                <button type="submit" class="btn-action" style="flex: 1;">Guardar Cambios</button>
+                <a href="{% url 'gestion_listar' categoria %}" class="btn-action" style="background: #666; flex: 1;">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Pequeño script para estilizar los inputs generados por Django -->
+<script>
+    var inputs = document.querySelectorAll('input, select, textarea');
+    inputs.forEach(function(input) {
+        input.style.width = '100%';
+        input.style.padding = '10px';
+        input.style.border = '1px solid #ccc';
+        input.style.borderRadius = '5px';
+        input.style.boxSizing = 'border-box';
+    });
+</script>
+{% endblock %}

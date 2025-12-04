@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="background: #333; min-height: 100%; padding: 50px; display: flex; justify-content: center;">
+    
+    <div style="background: white; width: 400px; padding: 30px; box-shadow: 0 0 20px rgba(0,0,0,0.5); position: relative;">
+        <!-- Efecto papel rasgado (visual simple) -->
+        <div style="text-align: center; border-bottom: 2px dashed #333; padding-bottom: 20px; margin-bottom: 20px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Ford_logo_flat.svg" width="60" style="margin-bottom: 10px;">
+            <h2 style="margin: 0; color: #003478;">RECIBO DE COMPRA</h2>
+            <p style="margin: 5px 0 0; color: #777;">Folio: {{ folio }}</p>
+            <p style="margin: 0; color: #777;">{{ fecha|date:"d/m/Y H:i:s" }}</p>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <p><strong>Cliente:</strong> {{ usuario.first_name }} {{ usuario.last_name }}</p>
+            <p><strong>Método de Pago:</strong> {{ metodo|upper }}</p>
+            {% if metodo == 'tarjeta' %}
+                <p><strong>Ref:</strong> **** **** **** {{ referencia|slice:"-4:" }}</p>
+            {% endif %}
+        </div>
+
+        <table style="width: 100%; font-size: 14px; margin-bottom: 20px;">
+            <tr style="border-bottom: 1px solid #ddd;">
+                <th style="text-align: left; padding-bottom: 5px;">CONCEPTO</th>
+                <th style="text-align: right; padding-bottom: 5px;">PRECIO</th>
+            </tr>
+            {% for item in items %}
+            <tr>
+                <td style="padding: 8px 0; color: #555;">{{ item.nombre_producto }}</td>
+                <td style="padding: 8px 0; text-align: right;">${{ item.precio }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <div style="border-top: 2px dashed #333; padding-top: 15px; display: flex; justify-content: space-between; font-size: 20px; font-weight: bold; color: #003478;">
+            <span>TOTAL PAGADO</span>
+            <span>${{ total }}</span>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <p style="font-size: 12px; color: #999;">Gracias por tu preferencia.<br>Ford Company México.</p>
+            <a href="{% url 'inicio' %}" class="btn-custom btn-blue btn-block">Volver al Inicio</a>
+            <button onclick="window.print()" class="btn-custom btn-gray btn-block" style="margin-top: 10px;">🖨 Imprimir Ticket</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

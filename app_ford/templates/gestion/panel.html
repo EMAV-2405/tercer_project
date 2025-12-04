@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="padding: 40px; text-align: center;">
+    <h1 style="color: #003478;">⚙️ Panel de Administración Ford</h1>
+    <p>Selecciona una categoría para gestionar el inventario:</p>
+    
+    <div style="display: flex; gap: 20px; justify-content: center; margin-top: 40px; flex-wrap: wrap;">
+
+        <!-- Tarjeta SUV -->
+        <a href="{% url 'gestion_listar' 'suv' %}" class="card-admin">
+            <h3>🚙 Gestionar SUVs</h3>
+        </a>
+
+        <!-- Tarjeta Deportivo -->
+        <a href="{% url 'gestion_listar' 'deportivo' %}" class="card-admin">
+            <h3>🏎 Gestionar Deportivos</h3>
+        </a>
+
+        <!-- Tarjeta PickUp -->
+        <a href="{% url 'gestion_listar' 'pickup' %}" class="card-admin">
+            <h3>🛻 Gestionar PickUps</h3>
+        </a>
+
+        <!-- Tarjeta 100 Años -->
+        <a href="{% url 'gestion_listar' '100anios' %}" class="card-admin" style="background: #003478; color: white;">
+            <h3>🏁 Edición 100 Años</h3>
+        </a>
+
+        <!-- Tarjeta Clientes -->
+        <a href="{% url 'gestion_listar' 'clientes' %}" class="card-admin" style="border-left: 5px solid #28a745;">
+            <h3>👥 Gestionar Clientes</h3>
+            <p style="font-size: 12px; color: #777;">Usuarios y Permisos</p>
+        </a>
+
+        <!-- Tarjeta Pagos -->
+        <a href="{% url 'gestion_listar' 'pagos' %}" class="card-admin" style="border-left: 5px solid #ffc107;">
+            <h3>💳 Historial de Pagos</h3>
+            <p style="font-size: 12px; color: #777;">Transacciones y Ventas</p>
+        </a>
+
+    </div>
+</div>
+
+<style>
+    .card-admin {
+        width: 250px;
+        padding: 30px;
+        border-radius: 10px;
+        background: white;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        text-decoration: none;
+        color: #003478;
+        transition: 0.3s;
+        border: 1px solid #eee;
+        text-align: center;
+    }
+    .card-admin:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+</style>
+{% endblock %}
